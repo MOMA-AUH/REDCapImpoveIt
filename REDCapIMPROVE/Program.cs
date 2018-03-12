@@ -1,4 +1,5 @@
 ﻿using Logging;
+using REDCapAPI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using CMCCColonrektal;
 
 namespace REDCapIMPROVE
 {
@@ -31,6 +33,7 @@ namespace REDCapIMPROVE
                 if (split.Length >= 2) postArgs.Add(split[0], split[1]);
             }
 
+
             try
             {
                 string configPath = Path.Combine(Environment.CurrentDirectory, "config.txt");
@@ -41,6 +44,15 @@ namespace REDCapIMPROVE
                 config["DataSource"] = Encryption.Cypher.Decrypt(config["DataSource"], decryptionKey);
                 config["UserID"] = Encryption.Cypher.Decrypt(config["UserID"], decryptionKey);
                 config["Password"] = Encryption.Cypher.Decrypt(config["Password"], decryptionKey);
+                config["DatabaseName"] = Encryption.Cypher.Decrypt(config["DatabaseName"], decryptionKey);
+
+                IMPROVEHandler improve = new IMPROVEHandler(new API(config["strURI"], config["strPostToken"]), new SQLinteracter("Data Source=" + config["DataSource"] + "; User ID=" + config["UserID"] + "; Password=" + config["Password"] + ";", config["DatabaseName"]), log);
+
+                if (postArgs["instrument"].Equals("crf_baseline")) //Baseline
+                {
+                    log.Log("patient_information");
+                    improve.handlePatient(postArgs["record"]);
+                }
 
             }
             catch (Exception ex)

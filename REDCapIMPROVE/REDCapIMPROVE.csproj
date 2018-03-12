@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CMCCColonrektal">
+      <HintPath>..\..\DLLs\CMCCColonrektal\CMCCColonrektal\bin\Debug\CMCCColonrektal.dll</HintPath>
+    </Reference>
     <Reference Include="Encryption">
       <HintPath>..\..\DLLs\Encryption\Encryption\bin\Debug\Encryption.dll</HintPath>
     </Reference>
@@ -52,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMPROVEHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
