@@ -1,5 +1,5 @@
 ## REDCapImpoveIt
-#For synchronization between IMPROVE and IMPROVE IT REDCap databases
+# For synchronization between IMPROVE and IMPROVE IT REDCap databases
 
 Simplified program flow
 
