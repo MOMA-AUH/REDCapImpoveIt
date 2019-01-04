@@ -12,44 +12,45 @@ namespace REDCapIMPROVE
 {
     class IMPROVEHandler
     {
-        private API redcapAPI;
-        private Logger log;
-        private SQLinteracter cmccInteractor;
+        protected API redcapAPI;
+        protected Logger log;
 
-        public IMPROVEHandler(API redcapAPI, SQLinteracter cmccInteractor, Logger log)
+        public IMPROVEHandler(API redcapAPI, Logger log)
         {
             this.redcapAPI = redcapAPI;
-            this.cmccInteractor = cmccInteractor;
             this.log = log;
         }
 
-        public void handlePatient(string improveID)
+        public Dictionary<string, string> getData(List<string> vars, string record)
         {
-            DataTable dt = redcapAPI.GetTableFromRC("bl_study_id", improveID, "bl_study_id, bl_patient_cpr, bl_patient_forename, bl_patient_surname, crf_baseline_complete, ", "", "", false, false);
+            string fields = string.Join(",", vars.ToArray());
 
-            DataRow patientData = dt.Rows[0];
+            fields = "record_id" + "," + fields;
 
-            Patient p = null;
-            try
-            {
-                p = new Patient(patientData["bl_patient_forename"].ToString(), patientData["bl_patient_surname"].ToString(), patientData["bl_patient_cpr"].ToString());
-            }
-            catch (Exception ex)
-            {
-                //Probably not done, so just be silent
-            }
+            DataTable dt = redcapAPI.GetTableFromRC("record_id", record, "", "", "", false, false);
 
-            //if(p != null & p.passModulus())
-            if (p != null)
+            DataRow dr = dt.Rows[0];
+
+            Dictionary<string, string> result = new Dictionary<string, string>();
+
+            foreach(string var in vars)
             {
-                p.PatientID = cmccInteractor.insertPatient(p);
-            }
-            else
-            {
-                //TODO: raise flag for modulus
+                result.Add(var, dr[var].ToString());
             }
 
-            //TODO: Update improve project ID
+            return result;
+        }
+
+        public string getDAG(string record)
+        {
+            DataTable dt = redcapAPI.GetTableFromRC("record_id", record, "", "", "", false, true);
+            
+            return dt.Rows[0]["redcap_data_access_group"].ToString();
+        }
+
+        public string uploadCSV(string csv, bool overwrite = true)
+        {
+            return redcapAPI.RCImportCSVFlat(csv, overwrite);
         }
     }
 }
