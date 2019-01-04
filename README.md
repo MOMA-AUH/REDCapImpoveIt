@@ -1,12 +1,12 @@
-## REDCapImpoveIt
-# For synchronization between IMPROVE and IMPROVE IT REDCap databases
+### REDCapImpoveIt
+#### For synchronization between IMPROVE and IMPROVE IT REDCap databases
 
 Simplified program flow
 
 ![Program flow](https://github.com/MOMA-AUH/REDCapImpoveIt/blob/master/programFlow.jpg)
 
 
-## Requires a config.txt file of the following structure:
+### Requires a config.txt file of the following structure:
 
 ```plain text
 [REDCap API]
