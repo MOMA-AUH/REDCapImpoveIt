@@ -64,7 +64,8 @@ namespace REDCapIMPROVE
                 {
                     log.Log("baseline_arm_1");
 
-                    int improveID = Convert.ToInt32(improveIt.getIMPROVEID(postArgs["record"]));
+                    //int improveID = Convert.ToInt32(improveIt.getIMPROVEID(postArgs["record"]));
+                    var improveID = improveIt.getIMPROVEID(postArgs["record"]);
 
                     Dictionary<string, string> improveData = improve.getData(transferFields.Keys.ToList(), improveID.ToString());
                     

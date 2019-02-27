@@ -16,7 +16,7 @@ namespace REDCapIMPROVE
 
             DataRow patientData = dt.Select("redcap_event_name = 'baseline_arm_1'")[0];
 
-            return patientData["in_improve_id"].ToString();
+            return patientData["in_study_id"].ToString();
         }
     }
 }
